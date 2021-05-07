@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+
+import 'package:task_friendly/pages/checkout-tasker.dart';
+import 'package:task_friendly/provider/handler-person-helper.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 
 class GridMenu extends StatefulWidget {
   @override
@@ -71,6 +77,9 @@ class _GridMenuState extends State<GridMenu> {
   ];
   @override
   Widget build(BuildContext context) {
+    List<PersonHelp> personHelps =
+        Provider.of<HandlerPersonHelper>(context).getPersonHelper;
+
     return GridView.builder(
       itemCount: menuItem.length,
       padding: EdgeInsets.zero,
@@ -81,48 +90,49 @@ class _GridMenuState extends State<GridMenu> {
         mainAxisSpacing: 15,
       ),
       itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            // color: Color(0xffE0D7FF),
-            color: menuItem[index]['color'],
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Icon(Icons.cleaning_services, size: 30),
-              // Expanded(
-              //   child: Container(
-              //     child: Image.asset(
-              //       menuItem[index]['image'],
-              //       width: index == 3 ? 85 : 80,
-              //       height: index == 3 ? 85 : 80,
-              //     ),
-              //   ),
-              // ),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  shape: BoxShape.circle,
-                ),
-                child: SvgPicture.asset(
-                  menuItem[index]['image'],
-                  width: 80,
-                  height: 80,
+        return InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => CheckoutTaskers(
+                  serviceType: menuItem[index]['name'],
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
-                menuItem[index]['name'],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              // color: Color(0xffE0D7FF),
+              color: menuItem[index]['color'],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    menuItem[index]['image'],
+                    width: 80,
+                    height: 80,
+                  ),
                 ),
-              )
-            ],
+                SizedBox(height: 20),
+                Text(
+                  menuItem[index]['name'],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

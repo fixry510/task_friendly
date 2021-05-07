@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:task_friendly/pages/home.dart';
+import 'package:task_friendly/provider/handler-person-helper.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +18,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<HandlerPersonHelper>(
+            create: (_) => HandlerPersonHelper(),
+          ),
+        ],
+        child: HomePage(),
+      ),
     );
   }
 }
