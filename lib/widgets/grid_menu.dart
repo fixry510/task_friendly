@@ -15,70 +15,69 @@ class GridMenu extends StatefulWidget {
 class _GridMenuState extends State<GridMenu> {
   List menuItem = [
     {
-      "name": "Handyman",
+      "serviceType": "Handyman",
       "image": "assets/svg/handy.svg",
       "color": Color(0xffAAE5FF)
     },
     {
-      "name": "Personal Assistant",
+      "serviceType": "Personal Assistant",
       "image": "assets/svg/personal-assistant.svg",
       "color": Color(0xffACC2EE)
     },
     {
-      "name": "Party Events",
+      "serviceType": "Party Events",
       "image": "assets/svg/party.svg",
       "color": Color(0xff71AFD5)
     },
     {
-      "name": "Wait in Line",
+      "serviceType": "Wait in Line",
       "image": "assets/svg/wait_in_line.svg",
       "color": Color(0xff319BB2)
     },
     {
-      "name": "Office Service",
+      "serviceType": "Office Service",
       "image": "assets/svg/office_service.svg",
       "color": Color(0xff008487)
     },
     {
-      "name": "Yardwork Garden",
+      "serviceType": "Yardwork Garden",
       "image": "assets/svg/gardening.svg",
       "color": Color(0xffFFCCB1)
     },
     {
-      "name": "Delivery",
+      "serviceType": "Delivery",
       "image": "assets/svg/delivery.svg",
       "color": Color(0xffFFDE85)
     },
     {
-      "name": "Moving Service",
+      "serviceType": "Moving Service",
       "image": "assets/svg/moving_service.svg",
       "color": Color(0xffDAEBED)
     },
     {
-      "name": "Friend For You",
+      "serviceType": "Friend For You",
       "image": "assets/svg/friend_for_you.svg",
       "color": Color(0xff9082ED)
     },
     {
-      "name": "Cleaning",
+      "serviceType": "Cleaning",
       "image": "assets/svg/cleaning.svg",
       "color": Color(0xffFBF7FF)
     },
     {
-      "name": "Furniture Assembly",
+      "serviceType": "Furniture Assembly",
       "image": "assets/svg/furniture.svg",
       "color": Color(0xff66CFE1)
     },
     {
-      "name": "Cooking",
+      "serviceType": "Cooking",
       "image": "assets/svg/cooking.svg",
       "color": Color(0xffE0D7FF)
     },
   ];
   @override
   Widget build(BuildContext context) {
-    List<PersonHelp> personHelps =
-        Provider.of<HandlerPersonHelper>(context).getPersonHelper;
+    HandlerPersonHelper personHelps = Provider.of<HandlerPersonHelper>(context);
 
     return GridView.builder(
       itemCount: menuItem.length,
@@ -95,7 +94,9 @@ class _GridMenuState extends State<GridMenu> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => CheckoutTaskers(
-                  serviceType: menuItem[index]['name'],
+                  serviceType: menuItem[index]['serviceType'],
+                  personsHelper: personHelps.getPersonHelperWithService(
+                      menuItem[index]['serviceType']),
                 ),
               ),
             );
@@ -124,7 +125,7 @@ class _GridMenuState extends State<GridMenu> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  menuItem[index]['name'],
+                  menuItem[index]['serviceType'],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
