@@ -7,7 +7,8 @@ class CustomAppbar extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFF6C63BE),
+        // color: Color(0xFF6C63BE),
+        color: Colors.teal[700],
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),

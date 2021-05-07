@@ -28,12 +28,12 @@ class _BottomNavState extends State<BottomNav> {
           SalomonBottomBarItem(
             icon: Icon(Icons.home, size: 30),
             title: Text("Home"),
-            selectedColor: Colors.purple,
+            selectedColor: Colors.teal[700],
           ),
           SalomonBottomBarItem(
             icon: Icon(Icons.person, size: 30),
             title: Text("Profile"),
-            selectedColor: Colors.teal,
+            selectedColor: Colors.blue,
           ),
         ],
       ),
