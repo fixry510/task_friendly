@@ -47,7 +47,10 @@ class _CheckoutTaskersState extends State<CheckoutTaskers> {
     }
 
     return Scaffold(
-      bottomNavigationBar: BottomNav(),
+      bottomNavigationBar: Container(
+        // color: Colors.teal,
+        child: BottomNav(),
+      ),
       body: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: size.height,

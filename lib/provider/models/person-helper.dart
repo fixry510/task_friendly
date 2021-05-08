@@ -5,7 +5,7 @@ class PersonHelp {
   String description;
   String image;
   String sex;
-
+  int age;
   PersonHelp({
     this.name,
     this.lastname,
@@ -13,5 +13,6 @@ class PersonHelp {
     this.description,
     this.image,
     this.sex,
+    this.age,
   });
 }

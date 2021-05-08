@@ -4,7 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:task_friendly/pages/home.dart';
 import 'package:task_friendly/provider/handler-person-helper.dart';
 
+import 'package:flutter/rendering.dart';
+
 void main() {
+  // debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
