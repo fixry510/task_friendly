@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_friendly/pages/authPage.dart';
@@ -6,8 +7,11 @@ import 'package:task_friendly/pages/home.dart';
 import 'package:task_friendly/provider/handler-person-helper.dart';
 
 import 'package:flutter/rendering.dart';
+import 'package:task_friendly/provider/models/user.dart';
+import 'package:task_friendly/services/authService.dart';
+import 'package:task_friendly/wrapper.dart';
 
-void main() {
+void main() async {
   // debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
@@ -18,21 +22,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLoggin = false;
-  void setLoggin(isLoggin) {
-    setState(() {
-      this.isLoggin = isLoggin;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      routes: {
-        HomePage.route: (context) => HomePage(),
-      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -41,8 +35,11 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider<HandlerPersonHelper>(
             create: (context) => HandlerPersonHelper(),
           ),
+          StreamProvider<User>.value(
+            value: AuthService().isLogin,
+          ),
         ],
-        child: isLoggin ? HomePage() : AuthPage(setLoggin: setLoggin),
+        child: Wrapper(),
       ),
     );
   }

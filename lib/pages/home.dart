@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task_friendly/provider/handler-person-helper.dart';
 
+import 'package:task_friendly/provider/handler-person-helper.dart';
 import '../widgets/app_bar-home.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/grid_menu.dart';
@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     HandlerPersonHelper personHandler =
         Provider.of<HandlerPersonHelper>(context);
     return Scaffold(

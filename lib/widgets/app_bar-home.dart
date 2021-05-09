@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:task_friendly/provider/models/user.dart';
+import 'package:task_friendly/services/authService.dart';
 
 class CustomAppbar extends StatelessWidget {
+  AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -32,34 +36,39 @@ class CustomAppbar extends StatelessWidget {
                     'Task Friendly',
                     style: TextStyle(fontSize: 30, color: Colors.white),
                   ),
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/svg/bell.svg",
-                        width: 25,
-                        height: 25,
-                        color: Colors.white,
-                      ),
-                      Positioned(
-                        left: -10,
-                        top: -10,
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red[400],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "1",
-                              style: TextStyle(color: Colors.white),
+                  GestureDetector(
+                    onTap: () async {
+                      await _authService.signOut();
+                    },
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/bell.svg",
+                          width: 25,
+                          height: 25,
+                          color: Colors.white,
+                        ),
+                        Positioned(
+                          left: -10,
+                          top: -10,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red[400],
+                            ),
+                            child: Center(
+                              child: Text(
+                                "1",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),

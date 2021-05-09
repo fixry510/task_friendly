@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-class AuthPage extends StatefulWidget {
-  final Function setLoggin;
+import 'package:task_friendly/services/authService.dart';
 
-  const AuthPage({Key key, this.setLoggin}) : super(key: key);
+class AuthPage extends StatefulWidget {
   @override
   _AuthPageState createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
+  AuthService _authService = AuthService();
   bool loginMode = true;
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   void setIsLogginMode({isLoggin}) {
     setState(() {
@@ -102,6 +106,7 @@ class _AuthPageState extends State<AuthPage> {
                               SizedBox(
                                 height: 50,
                                 child: TextField(
+                                  controller: email,
                                   decoration: getInputDecortion().copyWith(
                                     hintText: "Email",
                                   ),
@@ -111,6 +116,7 @@ class _AuthPageState extends State<AuthPage> {
                               SizedBox(
                                 height: 50,
                                 child: TextField(
+                                  controller: password,
                                   obscureText: true,
                                   decoration: getInputDecortion().copyWith(
                                     hintText: "Password",
@@ -122,6 +128,7 @@ class _AuthPageState extends State<AuthPage> {
                                 SizedBox(
                                   height: 50,
                                   child: TextField(
+                                    controller: confirmPassword,
                                     obscureText: true,
                                     decoration: getInputDecortion().copyWith(
                                       hintText: "Confirm Password",
@@ -132,8 +139,23 @@ class _AuthPageState extends State<AuthPage> {
                               SizedBox(
                                 height: 45,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    widget.setLoggin(true);
+                                  onPressed: () async {
+                                    if (loginMode) {
+                                      await _authService.signIn(
+                                        email.text.trim(),
+                                        password.text.trim(),
+                                      );
+                                    } else {
+                                      if (confirmPassword.text.isEmpty ||
+                                          confirmPassword.text !=
+                                              password.text) {
+                                        return;
+                                      }
+                                      await _authService.signUp(
+                                        email.text.trim(),
+                                        password.text.trim(),
+                                      );
+                                    }
                                   },
                                   child: Text(loginMode ? 'Login' : 'Signup'),
                                   style: OutlinedButton.styleFrom(

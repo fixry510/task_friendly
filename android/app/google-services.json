@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "633111769364",
+    "project_id": "taskfriendly-dea17",
+    "storage_bucket": "taskfriendly-dea17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633111769364:android:3928993619541ea7f2d201",
+        "android_client_info": {
+          "package_name": "com.pin.task_friendly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633111769364-88dj0f0u9pitlvssndj5nidsd25pkgnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH9SGx2kRM5ePbhDLvjoLW5Sb4a9DeRm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633111769364-88dj0f0u9pitlvssndj5nidsd25pkgnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
