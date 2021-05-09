@@ -7,6 +7,7 @@ import '../widgets/bottom_nav.dart';
 import '../widgets/grid_menu.dart';
 
 class HomePage extends StatelessWidget {
+  static String route = '/homePage';
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
