@@ -21,14 +21,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<HandlerPersonHelper>(
-            create: (_) => HandlerPersonHelper(),
-          ),
-        ],
-        child: HomePage(),
-      ),
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider<HandlerPersonHelper>(
+          create: (_) => HandlerPersonHelper(),
+        ),
+      ], child: HomePage()),
     );
   }
 }

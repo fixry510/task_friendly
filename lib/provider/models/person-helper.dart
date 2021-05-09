@@ -4,7 +4,9 @@ class PersonHelp {
   String serviceType;
   String description;
   String image;
-  String sex;
+  String gender;
+  String jobType;
+  List<String> imageSkill;
   int age;
   PersonHelp({
     this.name,
@@ -12,7 +14,9 @@ class PersonHelp {
     this.serviceType,
     this.description,
     this.image,
-    this.sex,
+    this.gender,
     this.age,
+    this.jobType,
+    this.imageSkill,
   });
 }

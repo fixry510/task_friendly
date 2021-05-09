@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +14,17 @@ class ProfileHelper extends StatefulWidget {
 }
 
 class _ProfileHelperState extends State<ProfileHelper> {
+  List colors = [
+    Color(0xff71AFD5),
+    Color(0xff319BB2),
+    Color(0xff008487),
+    Color(0xffFFDE85),
+    Color(0xff9082ED),
+  ];
+  Color getColor() {
+    return colors[(Random().nextInt(colors.length))];
+  }
+
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -92,14 +105,14 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                         ),
                                         Expanded(child: Container()),
                                         Text(
-                                          "${personHelp.serviceType}",
+                                          "70฿/hr",
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.grey[600],
                                           ),
                                         ),
                                         Text(
-                                          "gender : ${personHelp.sex}",
+                                          "gender : ${personHelp.gender}",
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.grey[600],
@@ -141,11 +154,10 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                                   color: Colors.teal
                                                       .withOpacity(0.2),
                                                 ),
-                                                child: SvgPicture.asset(
-                                                  "assets/svg/envelope.svg",
-                                                  width: 30,
-                                                  height: 30,
+                                                child: Icon(
+                                                  Icons.pin_drop_rounded,
                                                   color: Colors.teal,
+                                                  size: 28,
                                                 ),
                                               ),
                                               SizedBox(width: 15),
@@ -211,7 +223,44 @@ class _ProfileHelperState extends State<ProfileHelper> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        Text('data'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'My Skill',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Container(
+                          width: size.width,
+                          height: size.height * 0.2,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding:
+                                const EdgeInsets.only(left: 25, right: 30.0),
+                            itemCount: personHelp.imageSkill.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 100,
+                                width: 200,
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    personHelp.imageSkill[index],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),

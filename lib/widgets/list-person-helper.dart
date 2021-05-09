@@ -67,6 +67,9 @@ class ListPersonHelper extends StatelessWidget {
                         flex: 3,
                         child: CircleAvatar(
                           radius: 45,
+                          // backgroundImage: AssetImage(
+                          //   personsHelper[index].image,
+                          // ),
                           backgroundImage: AssetImage(
                             personsHelper[index].image,
                           ),
@@ -91,16 +94,16 @@ class ListPersonHelper extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  "200฿ / hr ",
+                                  "${personsHelper[index].jobType}",
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.grey[700],
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(width: 3),
-                                SvgPicture.asset("assets/svg/clock.svg",
-                                    width: 18, height: 18)
+                                // SizedBox(width: 3),
+                                // SvgPicture.asset("assets/svg/clock.svg",
+                                //     width: 18, height: 18)
                               ],
                             ),
                             SizedBox(height: 5),
