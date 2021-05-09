@@ -83,7 +83,9 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                         SizedBox(
                                           width: size.width * 0.45,
                                           child: Text(
-                                            personHelp.name,
+                                            size.height > 700
+                                                ? personHelp.name
+                                                : "${personHelp.name} ${personHelp.lastname}",
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                               fontSize: 30,
@@ -91,18 +93,19 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: size.width * 0.45,
-                                          child: Text(
-                                            personHelp.lastname,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.w600,
+                                        if (size.height > 700)
+                                          SizedBox(
+                                            width: size.width * 0.45,
+                                            child: Text(
+                                              personHelp.lastname,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                           ),
-                                        ),
                                         Expanded(child: Container()),
                                         Text(
                                           "70฿/hr",
@@ -206,10 +209,10 @@ class _ProfileHelperState extends State<ProfileHelper> {
                             maxHeight: size.height * 0.15,
                             minHeight: size.height * 0.15,
                           ),
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 30.0, right: 30.0),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 30.0, right: 30.0),
+                            child: SingleChildScrollView(
                               child: Text(
                                 "${personHelp.description}",
                                 style: GoogleFonts.kanit(
