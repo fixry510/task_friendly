@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:task_friendly/services/authService.dart';
@@ -82,114 +84,121 @@ class _AuthPageState extends State<AuthPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0),
                   child: Container(
-                    width: 350,
-                    height: 400,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      elevation: 10,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                'Welcome',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 20),
-                              SizedBox(
-                                height: 50,
-                                child: TextField(
-                                  controller: email,
-                                  decoration: getInputDecortion().copyWith(
-                                    hintText: "Email",
-                                  ),
+                    width: size.width * 0.85,
+                    height: size.height * 0.45,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        elevation: 10,
+                        child: Center(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.all(constraints.maxWidth * 0.05),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  'Welcome',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              SizedBox(
-                                height: 50,
-                                child: TextField(
-                                  controller: password,
-                                  obscureText: true,
-                                  decoration: getInputDecortion().copyWith(
-                                    hintText: "Password",
-                                  ),
-                                ),
-                              ),
-                              if (!loginMode) SizedBox(height: 10),
-                              if (!loginMode)
+                                SizedBox(height: 20),
                                 SizedBox(
-                                  height: 50,
+                                  height: constraints.maxHeight * 0.15,
                                   child: TextField(
-                                    controller: confirmPassword,
+                                    controller: email,
+                                    decoration: getInputDecortion().copyWith(
+                                      hintText: "Email",
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: constraints.maxHeight * 0.001),
+                                SizedBox(
+                                  height: constraints.maxHeight * 0.15,
+                                  child: TextField(
+                                    controller: password,
                                     obscureText: true,
                                     decoration: getInputDecortion().copyWith(
-                                      hintText: "Confirm Password",
+                                      hintText: "Password",
                                     ),
                                   ),
                                 ),
-                              SizedBox(height: 15),
-                              SizedBox(
-                                height: 45,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (loginMode) {
-                                      await _authService.signIn(
-                                        email.text.trim(),
-                                        password.text.trim(),
-                                      );
-                                    } else {
-                                      if (confirmPassword.text.isEmpty ||
-                                          confirmPassword.text !=
-                                              password.text) {
-                                        return;
-                                      }
-                                      await _authService.signUp(
-                                        email.text.trim(),
-                                        password.text.trim(),
-                                      );
-                                    }
-                                  },
-                                  child: Text(loginMode ? 'Login' : 'Signup'),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.teal,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                if (!loginMode)
+                                  SizedBox(
+                                    height: constraints.maxHeight * 0.001,
                                   ),
-                                ),
-                              ),
-                              SizedBox(height: 50),
-                              GestureDetector(
-                                onTap: () =>
-                                    setIsLogginMode(isLoggin: !loginMode),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: 'Or ',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.grey),
-                                    children: [
-                                      TextSpan(
-                                        text: loginMode ? 'Signup' : 'Login',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.red[700],
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                if (!loginMode)
+                                  SizedBox(
+                                    height: constraints.maxHeight * 0.15,
+                                    child: TextField(
+                                      controller: confirmPassword,
+                                      obscureText: true,
+                                      decoration: getInputDecortion().copyWith(
+                                        hintText: "Confirm Password",
                                       ),
-                                    ],
+                                    ),
+                                  ),
+                                SizedBox(height: constraints.maxHeight * 0.01),
+                                SizedBox(
+                                  height: constraints.maxHeight * 0.11,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (loginMode) {
+                                        await _authService.signIn(
+                                          email.text.trim(),
+                                          password.text.trim(),
+                                        );
+                                      } else {
+                                        if (confirmPassword.text.isEmpty ||
+                                            confirmPassword.text !=
+                                                password.text) {
+                                          return;
+                                        }
+                                        await _authService.signUp(
+                                          email.text.trim(),
+                                          password.text.trim(),
+                                        );
+                                      }
+                                    },
+                                    child: Text(loginMode ? 'Login' : 'Signup'),
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.teal,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: constraints.maxHeight * 0.1),
+                                GestureDetector(
+                                  onTap: () =>
+                                      setIsLogginMode(isLoggin: !loginMode),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: 'Or ',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.grey),
+                                      children: [
+                                        TextSpan(
+                                          text: loginMode ? 'Signup' : 'Login',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.red[700],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

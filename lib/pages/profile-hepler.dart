@@ -14,17 +14,6 @@ class ProfileHelper extends StatefulWidget {
 }
 
 class _ProfileHelperState extends State<ProfileHelper> {
-  List colors = [
-    Color(0xff71AFD5),
-    Color(0xff319BB2),
-    Color(0xff008487),
-    Color(0xffFFDE85),
-    Color(0xff9082ED),
-  ];
-  Color getColor() {
-    return colors[(Random().nextInt(colors.length))];
-  }
-
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
