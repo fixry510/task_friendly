@@ -90,13 +90,14 @@ class _GridMenuState extends State<GridMenu> {
       ),
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {
+          onTap: () async {
+            List<Map<String, dynamic>> personsAndService = await personHelps
+                .getPersonHelperWithService(menuItem[index]['serviceType']);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => CheckoutTaskers(
                   serviceType: menuItem[index]['serviceType'],
-                  personsHelper: personHelps.getPersonHelperWithService(
-                      menuItem[index]['serviceType']),
+                  personsHelper: personsAndService,
                 ),
               ),
             );

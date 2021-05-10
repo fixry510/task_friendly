@@ -2,24 +2,33 @@ class PersonHelp {
   String uid;
   String name;
   String lastname;
-  String serviceType;
-  String description;
-  String image;
+  List<ServiceType> service;
+  String profileImage;
   String gender;
-  String jobType;
-  List<String> imageSkill;
+  String email;
   int age;
 
-  PersonHelp({
-    this.uid,
-    this.name,
-    this.lastname,
+  PersonHelp(
+      {this.uid,
+      this.name,
+      this.lastname,
+      this.email,
+      this.profileImage,
+      this.gender,
+      this.age,
+      this.service});
+}
+
+class ServiceType {
+  String serviceType;
+  String description;
+  List<dynamic> imageSkill;
+  String jobType;
+
+  ServiceType({
     this.serviceType,
     this.description,
-    this.image,
-    this.gender,
-    this.age,
-    this.jobType,
     this.imageSkill,
+    this.jobType,
   });
 }

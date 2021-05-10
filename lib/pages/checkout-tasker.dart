@@ -8,7 +8,7 @@ import 'package:task_friendly/widgets/list-person-helper.dart';
 
 class CheckoutTaskers extends StatefulWidget {
   final String serviceType;
-  final List<PersonHelp> personsHelper;
+  final List<Map<String, dynamic>> personsHelper;
   const CheckoutTaskers({Key key, this.serviceType, this.personsHelper})
       : super(key: key);
 
@@ -17,7 +17,7 @@ class CheckoutTaskers extends StatefulWidget {
 }
 
 class _CheckoutTaskersState extends State<CheckoutTaskers> {
-  List<PersonHelp> personsHelper;
+  List<Map<String, dynamic>> personsHelper;
 
   @override
   void initState() {
@@ -40,8 +40,8 @@ class _CheckoutTaskersState extends State<CheckoutTaskers> {
         personsHelper = [
           ...personsHelper.where(
             (element) =>
-                element.name.contains(value) ||
-                element.lastname.contains(value),
+                element['person'].name.contains(value) ||
+                element['person'].lastname.contains(value),
           )
         ];
       });
@@ -162,20 +162,20 @@ InputDecoration getInputDecoration() {
 }
 
 //WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-//   QuerySnapshot s =
-//       await Firestore.instance.collection("users").getDocuments();
-//   List<DocumentSnapshot> list = s.documents;
-//   for (var r in list) {
-//     r.reference
-//         .collection("services")
-//         .where("serviceType", isEqualTo: "Handyman")
-//         .snapshots()
-//         .forEach((element) async {
-//       List<DocumentSnapshot> doc = element.documents;
-//       doc.forEach((element) {
-//         print(element.documentID);
-//         print(r.data);
-//       });
+// QuerySnapshot s =
+//     await Firestore.instance.collection("users").getDocuments();
+// List<DocumentSnapshot> list = s.documents;
+// for (var r in list) {
+//   r.reference
+//       .collection("services")
+//       .where("serviceType", isEqualTo: "Handyman")
+//       .snapshots()
+//       .forEach((element) async {
+//     List<DocumentSnapshot> doc = element.documents;
+//     doc.forEach((element) {
+//       print(element.documentID);
+//       print(r.data);
 //     });
-//   }
+//   });
+// }
 // });

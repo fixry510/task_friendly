@@ -8,7 +8,6 @@ import 'package:task_friendly/provider/handler-person-helper.dart';
 
 import 'package:flutter/rendering.dart';
 import 'package:task_friendly/provider/models/person-helper.dart';
-import 'package:task_friendly/provider/models/user.dart';
 import 'package:task_friendly/services/authService.dart';
 import 'package:task_friendly/wrapper.dart';
 

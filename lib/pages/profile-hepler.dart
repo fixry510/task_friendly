@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_friendly/provider/models/person-helper.dart';
+import 'package:provider/provider.dart';
+import 'package:task_friendly/provider/handler-person-helper.dart';
 
 class ProfileHelper extends StatefulWidget {
-  final PersonHelp personHelp;
+  final Map<String, dynamic> personHelp;
 
   const ProfileHelper({Key key, this.personHelp}) : super(key: key);
   @override
@@ -17,7 +16,7 @@ class _ProfileHelperState extends State<ProfileHelper> {
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
-    PersonHelp personHelp = widget.personHelp;
+    Map<String, dynamic> personHelp = widget.personHelp;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: ConstrainedBox(
@@ -53,8 +52,8 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                     child: Container(
                                       width: size.width * 0.33,
                                       height: size.height * 0.25,
-                                      child: Image.asset(
-                                        personHelp.image,
+                                      child: Image.network(
+                                        personHelp['person'].profileImage,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -73,8 +72,8 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                           width: size.width * 0.45,
                                           child: Text(
                                             size.height > 700
-                                                ? personHelp.name
-                                                : "${personHelp.name} ${personHelp.lastname}",
+                                                ? personHelp['person'].name
+                                                : "${personHelp['person'].name} ${personHelp['person'].lastname}",
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                               fontSize: 30,
@@ -86,7 +85,7 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                           SizedBox(
                                             width: size.width * 0.45,
                                             child: Text(
-                                              personHelp.lastname,
+                                              personHelp['person'].lastname,
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: true,
                                               style: TextStyle(
@@ -104,14 +103,14 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                           ),
                                         ),
                                         Text(
-                                          "gender : ${personHelp.gender}",
+                                          "gender : ${personHelp['person'].gender}",
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.grey[600],
                                           ),
                                         ),
                                         Text(
-                                          "age : ${personHelp.age}",
+                                          "age : ${personHelp['person'].age}",
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.grey[600],
@@ -203,7 +202,7 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                 const EdgeInsets.only(left: 30.0, right: 30.0),
                             child: SingleChildScrollView(
                               child: Text(
-                                "${personHelp.description}",
+                                "${personHelp['service'].description}",
                                 style: GoogleFonts.kanit(
                                   fontSize: 20,
                                   color: Colors.grey,
@@ -236,7 +235,7 @@ class _ProfileHelperState extends State<ProfileHelper> {
                             scrollDirection: Axis.horizontal,
                             padding:
                                 const EdgeInsets.only(left: 25, right: 30.0),
-                            itemCount: personHelp.imageSkill.length,
+                            itemCount: personHelp['service'].imageSkill.length,
                             itemBuilder: (context, index) {
                               return Container(
                                 height: 100,
@@ -245,7 +244,7 @@ class _ProfileHelperState extends State<ProfileHelper> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    personHelp.imageSkill[index],
+                                    personHelp['service'].imageSkill[index],
                                     fit: BoxFit.cover,
                                   ),
                                 ),

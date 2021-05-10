@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:task_friendly/provider/models/user.dart';
 import 'package:task_friendly/services/authService.dart';
 
 class CustomAppbar extends StatelessWidget {

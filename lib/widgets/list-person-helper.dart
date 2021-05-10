@@ -15,7 +15,7 @@ class ListPersonHelper extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final List<PersonHelp> personsHelper;
+  final List<Map<String, dynamic>> personsHelper;
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
@@ -34,8 +34,10 @@ class ListPersonHelper extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ProfileHelper(
-                      personHelp: personsHelper[index],
+                    builder: (context) => Builder(
+                      builder: (context) => ProfileHelper(
+                        personHelp: personsHelper[index],
+                      ),
                     ),
                   ),
                 );
@@ -70,8 +72,8 @@ class ListPersonHelper extends StatelessWidget {
                           // backgroundImage: AssetImage(
                           //   personsHelper[index].image,
                           // ),
-                          backgroundImage: AssetImage(
-                            personsHelper[index].image,
+                          backgroundImage: NetworkImage(
+                            personsHelper[index]['person'].profileImage,
                           ),
                         ),
                       ),
@@ -82,7 +84,7 @@ class ListPersonHelper extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${personsHelper[index].name} ${personsHelper[index].lastname}",
+                              "${personsHelper[index]['person'].name} ${personsHelper[index]['person'].lastname}",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 20,
@@ -94,7 +96,7 @@ class ListPersonHelper extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  "${personsHelper[index].jobType}",
+                                  "${personsHelper[index]['service'].jobType}",
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.grey[700],

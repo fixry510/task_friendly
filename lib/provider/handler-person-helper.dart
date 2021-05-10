@@ -8,99 +8,74 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class HandlerPersonHelper extends ChangeNotifier {
-  HandlerPersonHelper() {
-    initPerson();
-  }
   Future<void> initPerson() async {
     QuerySnapshot docsh =
         await Firestore.instance.collection("users").getDocuments();
+
     for (DocumentSnapshot doc in docsh.documents) {
-      print(doc.data['name']);
-      print("-" * 20);
+      QuerySnapshot docshServices =
+          await doc.reference.collection("services").getDocuments();
+      List servicesOfUser = [];
+
+      PersonHelp person = PersonHelp(
+        uid: doc.documentID,
+        name: doc.data['name'],
+        lastname: doc.data['lastname'],
+        age: int.parse(doc.data['age']),
+        email: doc.data['email'],
+        gender: doc.data['gender'],
+        profileImage: doc.data['profileImage'],
+      );
+
+      for (DocumentSnapshot docSv in docshServices.documents) {
+        servicesOfUser.add(ServiceType(
+          serviceType: docSv['serviceType'],
+          description: docSv['description'],
+          imageSkill: docSv['imageSkill'],
+          jobType: docSv['jobType'],
+        ));
+      }
+      person.service = [...servicesOfUser];
+      servicesOfUser = [];
+      personsHelp.add(person);
     }
   }
 
-  List<PersonHelp> personsHelp = [
-    PersonHelp(
-        name: "Esso",
-        lastname: "Pantong",
-        description:
-            "ผมมีประสบการณ์ประกอบเฟอร์นิเจอร์มาตั้งแต่ยังหนุ่ม ผมมีประสบการณ์มา 8 ปี ทำงานที่ HomePro ทั้งการส่งของติดตั้งและประกอบชิ้นส่วนคุณสามารถเชื่อใจผีมือผมได้ ให้ผมบริการคุณนะครับ",
-        serviceType: "Handyman",
-        image: "assets/handyman/electric_man.jpeg",
-        gender: "Male",
-        age: 20,
-        jobType: "ช่างไฟ",
-        imageSkill: [
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfSFYK47R0h0y5IoDqeSnYDHMi19QnQuvHJQ&usqp=CAU',
-          'https://assets.siccode.com/i-s-b/sic-code-7629-electrical-electronic-repair-shops.jpg'
-        ]),
-    PersonHelp(
-        name: "Nattapatpol",
-        lastname: "Keawsaisoon",
-        description:
-            "ผมเป็นคนตั้งใจทำงานที่ได้รับมอบหมายเป็นอย่างดีผมทำตามคำสั่งให้เกียติคุณและดูแลสิ่งของของคุณ ผมมีเกียติบัตรประกอบอาชีพช่างประปาและช่างทั่วไป คุณสามารถเรียกใช้ผมได้ตามต้องการ",
-        serviceType: "Handyman",
-        image: "assets/handyman/plumber_man.jpeg",
-        gender: "Male",
-        age: 20,
-        jobType: 'ช่างประปา',
-        imageSkill: [
-          'https://stmath09.files.wordpress.com/2016/04/e0b88ae0b988e0b8b2e0b887e0b89be0b8a3e0b8b0e0b89be0b8b211.jpg',
-          'https://i0.wp.com/taarifa.rw/wp-content/uploads/2021/02/NJYIZcSAE5ODTImqJirgg7kunj18e3wK1598976088.jpg?w=1000&ssl=1'
-        ]),
-    PersonHelp(
-        name: "Korn",
-        lastname: "",
-        description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-        serviceType: "Handyman",
-        image: 'assets/handyman/wood_man.jpeg',
-        gender: "Male",
-        age: 20,
-        jobType: 'ช่างไม้',
-        imageSkill: [
-          'https://images.squarespace-cdn.com/content/v1/5602c473e4b0a65d125ef0dc/1554644928528-UP5UHEXD7LJ10OLSER2W/ke17ZwdGBToddI8pDm48kAJsswp0EXV6qc0SOJ8DOsUUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKc_E7dXkCi7l7eF32s1E_vQW45WD95yMX6bcbEP6L1pnbQgytvpF9JKWwbDEjqe30p/Carpenter.jpg',
-          'https://storage.googleapis.com/air-multi-tmbi-cpt-uploads/wp-content/uploads/2020/03/4e43e850-61u5vx9jfvl._ac_sl1000_-1024x1024.jpg'
-        ]),
-    PersonHelp(
-        name: "MayBe",
-        lastname: "",
-        description:
-            "ฉันเคยทำงานที่ IKEA ฉันมีความสามารถในการประกอบเฟอร์นิเจอร์ ฉันมีประการณ์บริการลูกค้าในการประกอบสินค้า เฟอร์นิเจอร์และอุปกรณ์ต่างๆ คุณสามารถมั่นใจผีมือของฉันได้ แน่นอนฉันจะไม่ทำให้คุณผิดหวัง",
-        serviceType: "Handyman",
-        image: 'assets/handyman/barber_man.jpeg',
-        gender: "Famale",
-        age: 20,
-        jobType: 'ช่างตัดผม',
-        imageSkill: [
-          'https://content3.jdmagicbox.com/comp/firozabad/b6/9999p5612.5612.170730122710.b7b6/catalogue/forgein-hair-cut-salon-shikohabad-firozabad-men-beauty-parlours-g260xtjnuo.jpg?clr=3e3328',
-          'https://www.menshairstylestoday.com/wp-content/uploads/2019/02/Comb-Over-Tapered-Haircut.jpg'
-        ]),
-    PersonHelp(
-        name: "Pin",
-        lastname: "Sukjaroen",
-        description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-        serviceType: "Handyman",
-        image: 'assets/handyman/mechanics_man.jpeg',
-        gender: "Male",
-        age: 20,
-        jobType: 'ช่างยนต์',
-        imageSkill: [
-          'https://miro.medium.com/max/4320/1*JktzC9GrA_l4yz0cCy8a5Q.jpeg',
-          'https://img2.thejournal.ie/article/4814747/river?version=4814834&width=1340'
-        ]),
-  ];
+  List<PersonHelp> personsHelp = [];
 
   List<PersonHelp> get getAllPersonHelper => [...this.personsHelp];
 
-  List<PersonHelp> getPersonHelperWithService(String serviceType) {
-    return getAllPersonHelper
-        .where((person) => person.serviceType == serviceType)
-        .toList();
+  Future<List<Map<String, Object>>> getPersonHelperWithService(
+      String serviceType) async {
+    List<Map<String, dynamic>> persons = [];
+    for (PersonHelp person in getAllPersonHelper) {
+      List<ServiceType> personAndhisService = person.service;
+      for (ServiceType sv in personAndhisService) {
+        if (sv.serviceType == serviceType) {
+          persons.add({"person": person, "service": sv});
+        }
+      }
+    }
+    return persons;
   }
 }
+
+//  QuerySnapshot s =
+//       await Firestore.instance.collection("users").getDocuments();
+//   List<DocumentSnapshot> list = s.documents;
+//   for (var r in list) {
+//     r.reference
+//         .collection("services")
+//         .where("serviceType", isEqualTo: "Handyman")
+//         .snapshots()
+//         .forEach((element) async {
+//       List<DocumentSnapshot> doc = element.documents;
+//       doc.forEach((element) {
+//         print(element.documentID);
+//         print(r.data);
+//       });
+//     });
+//   }
 
 //  PersonHelp(
 //       name: "B",
@@ -221,3 +196,76 @@ class HandlerPersonHelper extends ChangeNotifier {
 //     //   ));
 //     // }
 //     // print(res.body);
+
+// List<PersonHelp> personsHelp = [
+//     PersonHelp(
+//         name: "Esso",
+//         lastname: "Pantong",
+//         description:
+//             "ผมมีประสบการณ์ประกอบเฟอร์นิเจอร์มาตั้งแต่ยังหนุ่ม ผมมีประสบการณ์มา 8 ปี ทำงานที่ HomePro ทั้งการส่งของติดตั้งและประกอบชิ้นส่วนคุณสามารถเชื่อใจผีมือผมได้ ให้ผมบริการคุณนะครับ",
+//         serviceType: "Handyman",
+//         profileImage: "assets/handyman/electric_man.jpeg",
+//         gender: "Male",
+//         age: 20,
+//         jobType: "ช่างไฟ",
+//         imageSkill: [
+//           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfSFYK47R0h0y5IoDqeSnYDHMi19QnQuvHJQ&usqp=CAU',
+//           'https://assets.siccode.com/i-s-b/sic-code-7629-electrical-electronic-repair-shops.jpg'
+//         ]),
+//     PersonHelp(
+//         name: "Nattapatpol",
+//         lastname: "Keawsaisoon",
+//         description:
+//             "ผมเป็นคนตั้งใจทำงานที่ได้รับมอบหมายเป็นอย่างดีผมทำตามคำสั่งให้เกียติคุณและดูแลสิ่งของของคุณ ผมมีเกียติบัตรประกอบอาชีพช่างประปาและช่างทั่วไป คุณสามารถเรียกใช้ผมได้ตามต้องการ",
+//         serviceType: "Handyman",
+//         profileImage: "assets/handyman/plumber_man.jpeg",
+//         gender: "Male",
+//         age: 20,
+//         jobType: 'ช่างประปา',
+//         imageSkill: [
+//           'https://stmath09.files.wordpress.com/2016/04/e0b88ae0b988e0b8b2e0b887e0b89be0b8a3e0b8b0e0b89be0b8b211.jpg',
+//           'https://i0.wp.com/taarifa.rw/wp-content/uploads/2021/02/NJYIZcSAE5ODTImqJirgg7kunj18e3wK1598976088.jpg?w=1000&ssl=1'
+//         ]),
+//     PersonHelp(
+//         name: "Korn",
+//         lastname: "",
+//         description:
+//             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+//         serviceType: "Handyman",
+//         profileImage: 'assets/handyman/wood_man.jpeg',
+//         gender: "Male",
+//         age: 20,
+//         jobType: 'ช่างไม้',
+//         imageSkill: [
+//           'https://images.squarespace-cdn.com/content/v1/5602c473e4b0a65d125ef0dc/1554644928528-UP5UHEXD7LJ10OLSER2W/ke17ZwdGBToddI8pDm48kAJsswp0EXV6qc0SOJ8DOsUUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKc_E7dXkCi7l7eF32s1E_vQW45WD95yMX6bcbEP6L1pnbQgytvpF9JKWwbDEjqe30p/Carpenter.jpg',
+//           'https://storage.googleapis.com/air-multi-tmbi-cpt-uploads/wp-content/uploads/2020/03/4e43e850-61u5vx9jfvl._ac_sl1000_-1024x1024.jpg'
+//         ]),
+//     PersonHelp(
+//         name: "MayBe",
+//         lastname: "",
+//         description:
+//             "ฉันเคยทำงานที่ IKEA ฉันมีความสามารถในการประกอบเฟอร์นิเจอร์ ฉันมีประการณ์บริการลูกค้าในการประกอบสินค้า เฟอร์นิเจอร์และอุปกรณ์ต่างๆ คุณสามารถมั่นใจผีมือของฉันได้ แน่นอนฉันจะไม่ทำให้คุณผิดหวัง",
+//         serviceType: "Handyman",
+//         profileImage: 'assets/handyman/barber_man.jpeg',
+//         gender: "Famale",
+//         age: 20,
+//         jobType: 'ช่างตัดผม',
+//         imageSkill: [
+//           'https://content3.jdmagicbox.com/comp/firozabad/b6/9999p5612.5612.170730122710.b7b6/catalogue/forgein-hair-cut-salon-shikohabad-firozabad-men-beauty-parlours-g260xtjnuo.jpg?clr=3e3328',
+//           'https://www.menshairstylestoday.com/wp-content/uploads/2019/02/Comb-Over-Tapered-Haircut.jpg'
+//         ]),
+//     PersonHelp(
+//         name: "Pin",
+//         lastname: "Sukjaroen",
+//         description:
+//             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+//         serviceType: "Handyman",
+//         profileImage: 'assets/handyman/mechanics_man.jpeg',
+//         gender: "Male",
+//         age: 20,
+//         jobType: 'ช่างยนต์',
+//         imageSkill: [
+//           'https://miro.medium.com/max/4320/1*JktzC9GrA_l4yz0cCy8a5Q.jpeg',
+//           'https://img2.thejournal.ie/article/4814747/river?version=4814834&width=1340'
+//         ]),
+//   ];
