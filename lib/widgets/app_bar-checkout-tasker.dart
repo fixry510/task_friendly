@@ -1,8 +1,16 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 
-class CheckoutTaskerAppbar extends StatelessWidget {
+class CheckoutTaskerAppbar extends StatefulWidget {
   CheckoutTaskerAppbar(title) : this.title = title;
-  final String title; //serviceType
+  final String title;
+  @override
+  _CheckoutTaskerAppbarState createState() => _CheckoutTaskerAppbarState();
+}
+
+class _CheckoutTaskerAppbarState extends State<CheckoutTaskerAppbar> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -36,7 +44,7 @@ class CheckoutTaskerAppbar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       fontSize: 25,
                       textBaseline: TextBaseline.ideographic,

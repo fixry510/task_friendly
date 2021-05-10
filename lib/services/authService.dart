@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 import 'package:task_friendly/provider/models/user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid, name: user.email) : null;
+  PersonHelp _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? PersonHelp(uid: user.uid, name: user.email) : null;
   }
 
-  Stream<User> get isLogin {
+  Stream<PersonHelp> get isLogin {
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
@@ -27,17 +28,29 @@ class AuthService {
     }
   }
 
-  Future signUp(String email, String password) async {
+  Future signUp({
+    String email,
+    String password,
+    String name,
+    String lastname,
+    String age,
+    String gender,
+  }) async {
+    print(name);
+    print(lastname);
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       FirebaseUser user = result.user;
-      await Firestore.instance
-          .collection('user')
-          .document(user.uid)
-          .setData({"email": user.email});
+      await Firestore.instance.collection('users').document(user.uid).setData({
+        "email": email,
+        "name": name,
+        "lastname": lastname,
+        "age": age,
+        "gender": gender,
+      });
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

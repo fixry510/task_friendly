@@ -1,4 +1,5 @@
 class PersonHelp {
+  String uid;
   String name;
   String lastname;
   String serviceType;
@@ -8,7 +9,9 @@ class PersonHelp {
   String jobType;
   List<String> imageSkill;
   int age;
+
   PersonHelp({
+    this.uid,
     this.name,
     this.lastname,
     this.serviceType,

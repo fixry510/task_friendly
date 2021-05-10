@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:task_friendly/provider/models/person-helper.dart';
@@ -28,7 +29,7 @@ class _CheckoutTaskersState extends State<CheckoutTaskers> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    void searchTextField(value) {
+    void searchTextField(value) async {
       if (value.isEmpty) {
         setState(() {
           personsHelper = widget.personsHelper;
@@ -159,3 +160,22 @@ InputDecoration getInputDecoration() {
     ),
   );
 }
+
+//WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+//   QuerySnapshot s =
+//       await Firestore.instance.collection("users").getDocuments();
+//   List<DocumentSnapshot> list = s.documents;
+//   for (var r in list) {
+//     r.reference
+//         .collection("services")
+//         .where("serviceType", isEqualTo: "Handyman")
+//         .snapshots()
+//         .forEach((element) async {
+//       List<DocumentSnapshot> doc = element.documents;
+//       doc.forEach((element) {
+//         print(element.documentID);
+//         print(r.data);
+//       });
+//     });
+//   }
+// });

@@ -13,9 +13,11 @@ class _AuthPageState extends State<AuthPage> {
   AuthService _authService = AuthService();
   bool loginMode = true;
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
 
   void setIsLogginMode({isLoggin}) {
     setState(() {
@@ -85,7 +87,7 @@ class _AuthPageState extends State<AuthPage> {
                   padding: const EdgeInsets.only(top: 50.0),
                   child: Container(
                     width: size.width * 0.85,
-                    height: size.height * 0.45,
+                    height: loginMode ? size.height * 0.45 : size.height * 0.55,
                     child: LayoutBuilder(
                       builder: (context, constraints) => Card(
                         shape: RoundedRectangleBorder(
@@ -100,28 +102,29 @@ class _AuthPageState extends State<AuthPage> {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Text(
-                                  'Welcome',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 20),
+                                if (loginMode)
+                                  Text(
+                                    'Welcome',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                if (loginMode)
+                                  SizedBox(height: size.height * 0.02),
                                 SizedBox(
                                   height: constraints.maxHeight * 0.15,
                                   child: TextField(
-                                    controller: email,
+                                    controller: emailController,
                                     decoration: getInputDecortion().copyWith(
                                       hintText: "Email",
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: constraints.maxHeight * 0.001),
                                 SizedBox(
                                   height: constraints.maxHeight * 0.15,
                                   child: TextField(
-                                    controller: password,
+                                    controller: passwordController,
                                     obscureText: true,
                                     decoration: getInputDecortion().copyWith(
                                       hintText: "Password",
@@ -130,39 +133,63 @@ class _AuthPageState extends State<AuthPage> {
                                 ),
                                 if (!loginMode)
                                   SizedBox(
-                                    height: constraints.maxHeight * 0.001,
-                                  ),
-                                if (!loginMode)
-                                  SizedBox(
                                     height: constraints.maxHeight * 0.15,
                                     child: TextField(
-                                      controller: confirmPassword,
-                                      obscureText: true,
+                                      controller: nameController,
                                       decoration: getInputDecortion().copyWith(
-                                        hintText: "Confirm Password",
+                                        hintText: "Name Lastname",
                                       ),
                                     ),
                                   ),
-                                SizedBox(height: constraints.maxHeight * 0.01),
+                                if (!loginMode)
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          controller: ageController,
+                                          decoration:
+                                              getInputDecortion().copyWith(
+                                            hintText: "Age",
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        child: TextField(
+                                          controller: genderController,
+                                          decoration:
+                                              getInputDecortion().copyWith(
+                                            hintText: "Gender",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                SizedBox(height: constraints.maxHeight * 0.05),
                                 SizedBox(
                                   height: constraints.maxHeight * 0.11,
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if (loginMode) {
                                         await _authService.signIn(
-                                          email.text.trim(),
-                                          password.text.trim(),
+                                          emailController.text.trim(),
+                                          passwordController.text.trim(),
                                         );
                                       } else {
-                                        if (confirmPassword.text.isEmpty ||
-                                            confirmPassword.text !=
-                                                password.text) {
+                                        if (nameController.text.isEmpty ||
+                                            ageController.text.isEmpty ||
+                                            genderController.text.isEmpty) {
                                           return;
                                         }
                                         await _authService.signUp(
-                                          email.text.trim(),
-                                          password.text.trim(),
-                                        );
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                            name: nameController.text
+                                                .split(" ")[0],
+                                            lastname: nameController.text
+                                                .split(" ")[1],
+                                            age: ageController.text,
+                                            gender: genderController.text);
                                       }
                                     },
                                     child: Text(loginMode ? 'Login' : 'Signup'),
@@ -174,7 +201,7 @@ class _AuthPageState extends State<AuthPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: constraints.maxHeight * 0.1),
+                                SizedBox(height: constraints.maxHeight * 0.05),
                                 GestureDetector(
                                   onTap: () =>
                                       setIsLogginMode(isLoggin: !loginMode),

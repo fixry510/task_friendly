@@ -7,6 +7,7 @@ import 'package:task_friendly/pages/home.dart';
 import 'package:task_friendly/provider/handler-person-helper.dart';
 
 import 'package:flutter/rendering.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 import 'package:task_friendly/provider/models/user.dart';
 import 'package:task_friendly/services/authService.dart';
 import 'package:task_friendly/wrapper.dart';
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider<HandlerPersonHelper>(
             create: (context) => HandlerPersonHelper(),
           ),
-          StreamProvider<User>.value(
+          StreamProvider<PersonHelp>.value(
             value: AuthService().isLogin,
           ),
         ],

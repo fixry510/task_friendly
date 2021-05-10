@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,3 +60,13 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+// () async {
+//   Firestore.instance.collection("testJa").snapshots().forEach((element) {
+//     element.documents.forEach((element) {
+//       List.from(element.data['name']).forEach((element) {
+//         print(element);
+//       });
+//     });
+//   });
+// }();

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import './models/person-helper.dart';
@@ -7,39 +8,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class HandlerPersonHelper extends ChangeNotifier {
+  HandlerPersonHelper() {
+    initPerson();
+  }
   Future<void> initPerson() async {
-    return Future.delayed(Duration(milliseconds: 1000));
-    // List serviceType = [
-    //   "Handyman",
-    //   "Personal Assistant",
-    //   "Party Events",
-    //   "Wait in Line",
-    //   "Office Service",
-    //   "Yardwork Garden",
-    //   "Delivery",
-    //   "Moving Service",
-    //   "Friend For You",
-    //   "Cleaning",
-    //   "Furniture Assembly",
-    //   "Cooking",
-    // ];
-
-    // var url = Uri.parse('https://randomuser.me/api/');
-    // for (var i = 0; i < 30; i++) {
-    //   var response = await http.get(url);
-    //   var personFromApi = convert.jsonDecode(response.body)['results'][0];
-    //   personsHelp.add(PersonHelp(
-    //     name: personFromApi['name']['first'],
-    //     lastname: personFromApi['name']['last'],
-    //     age: personFromApi['dob']['age'],
-    //     description:
-    //         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    //     image: personFromApi['picture']['thumbnail'],
-    //     serviceType: serviceType[Random().nextInt(6)],
-    //     gender: personFromApi['gender'],
-    //   ));
-    // }
-    // print(res.body);
+    QuerySnapshot docsh =
+        await Firestore.instance.collection("users").getDocuments();
+    for (DocumentSnapshot doc in docsh.documents) {
+      print(doc.data['name']);
+      print("-" * 20);
+    }
   }
 
   List<PersonHelp> personsHelp = [
@@ -210,3 +188,36 @@ class HandlerPersonHelper extends ChangeNotifier {
 //       gender: "Male",
 //       age: 20,
 //     ),
+
+// return Future.delayed(Duration(milliseconds: 1000));
+//     // List serviceType = [
+//     //   "Handyman",
+//     //   "Personal Assistant",
+//     //   "Party Events",
+//     //   "Wait in Line",
+//     //   "Office Service",
+//     //   "Yardwork Garden",
+//     //   "Delivery",
+//     //   "Moving Service",
+//     //   "Friend For You",
+//     //   "Cleaning",
+//     //   "Furniture Assembly",
+//     //   "Cooking",
+//     // ];
+
+//     // var url = Uri.parse('https://randomuser.me/api/');
+//     // for (var i = 0; i < 30; i++) {
+//     //   var response = await http.get(url);
+//     //   var personFromApi = convert.jsonDecode(response.body)['results'][0];
+//     //   personsHelp.add(PersonHelp(
+//     //     name: personFromApi['name']['first'],
+//     //     lastname: personFromApi['name']['last'],
+//     //     age: personFromApi['dob']['age'],
+//     //     description:
+//     //         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+//     //     image: personFromApi['picture']['thumbnail'],
+//     //     serviceType: serviceType[Random().nextInt(6)],
+//     //     gender: personFromApi['gender'],
+//     //   ));
+//     // }
+//     // print(res.body);
