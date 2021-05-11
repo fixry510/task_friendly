@@ -1,4 +1,6 @@
-class PersonHelp {
+import 'package:flutter/material.dart';
+
+class PersonHelp extends ChangeNotifier {
   String uid;
   String name;
   String lastname;

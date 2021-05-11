@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:task_friendly/provider/models/person-helper.dart';
 
 class Chat extends StatefulWidget {
@@ -14,9 +15,12 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).viewInsets.bottom);
     final PersonHelp personHelp = widget.personHelp;
+    final PersonHelp user = Provider.of<PersonHelp>(context);
+    print("currentUser ${user.age}");
+    print("personHelp ${personHelp.age}");
     final ServiceType serviceType = widget.serviceType;
+    final TextEditingController msgController = TextEditingController();
     var size = MediaQuery.of(context).size;
     var keybordHeight = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
@@ -203,6 +207,7 @@ class _ChatState extends State<Chat> {
                                   child: SizedBox(
                                     height: 50,
                                     child: TextField(
+                                      controller: msgController,
                                       decoration: getInputBorder().copyWith(
                                         hintText: 'Type Message',
                                       ),
@@ -215,13 +220,18 @@ class _ChatState extends State<Chat> {
                               padding: EdgeInsets.only(
                                   bottom: keybordHeight == 0 ? 23 : 10,
                                   right: 10),
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                child: Icon(
-                                  Icons.send,
-                                  size: 30,
-                                  color: Colors.teal,
+                              child: GestureDetector(
+                                onTap: () {
+                                  print(msgController.text);
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  child: Icon(
+                                    Icons.send,
+                                    size: 30,
+                                    color: Colors.teal,
+                                  ),
                                 ),
                               ),
                             )

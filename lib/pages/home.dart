@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:task_friendly/provider/handler-person-helper.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 import '../widgets/app_bar-home.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/grid_menu.dart';
@@ -12,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     HandlerPersonHelper personHandler =
         Provider.of<HandlerPersonHelper>(context);
     return Scaffold(
@@ -29,13 +29,15 @@ class HomePage extends StatelessWidget {
         ),
         child: Container(
           child: FutureBuilder(
-            future: personHandler.initPerson(),
+            future: personHandler.initPersons(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               }
+              PersonHelp ps = Provider.of<PersonHelp>(context);
+              print(ps.name * 20);
               return Stack(
                 children: [
                   Positioned(

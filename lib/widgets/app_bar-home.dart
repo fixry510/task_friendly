@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:task_friendly/provider/models/person-helper.dart';
 import 'package:task_friendly/services/authService.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -37,6 +38,7 @@ class CustomAppbar extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      Provider.of<PersonHelp>(context, listen: false);
                       await _authService.signOut();
                     },
                     child: Stack(

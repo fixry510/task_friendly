@@ -20,7 +20,7 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<PersonHelp>(context);
+    final user = Provider.of<FirebaseUser>(context);
     if (user == null) {
       return AuthPage();
     }

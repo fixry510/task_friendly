@@ -5,12 +5,17 @@ import 'package:task_friendly/provider/models/person-helper.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  PersonHelp _userFromFirebaseUser(FirebaseUser user) {
+  // PersonHelp _userFromFirebaseUser(FirebaseUser user) {
+  //   return user != null ? PersonHelp(uid: user.uid, name: user.email) : null;
+  // }
+
+  Future<PersonHelp> _userFromFirebaseUser(FirebaseUser user) async {
     return user != null ? PersonHelp(uid: user.uid, name: user.email) : null;
   }
 
-  Stream<PersonHelp> get isLogin {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<FirebaseUser> get isLogin {
+    // return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+    return _auth.onAuthStateChanged;
   }
 
   Future signIn(String email, String password) async {

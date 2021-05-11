@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_friendly/pages/authPage.dart';
@@ -27,11 +28,18 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<HandlerPersonHelper>(
-          builder: (_, widget) => widget,
-          create: (context) => HandlerPersonHelper(),
+          create: (context) {
+            return HandlerPersonHelper();
+          },
         ),
-        StreamProvider<PersonHelp>.value(
-          value: AuthService().isLogin,
+        ChangeNotifierProxyProvider<HandlerPersonHelper, PersonHelp>(
+          update: (context, handlerPersonClass, previous) {
+            return handlerPersonClass.currentUser;
+          },
+          create: (context) => PersonHelp(),
+        ),
+        StreamProvider<FirebaseUser>(
+          create: (context) => AuthService().isLogin,
         ),
       ],
       child: MaterialApp(

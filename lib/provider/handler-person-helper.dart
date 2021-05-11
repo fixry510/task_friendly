@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import './models/person-helper.dart';
 
 class HandlerPersonHelper extends ChangeNotifier {
-  Future<void> initPerson() async {
+  PersonHelp currentUser;
+  Future<void> initPersons() async {
     QuerySnapshot docsh =
         await Firestore.instance.collection("users").getDocuments();
 
@@ -35,6 +37,20 @@ class HandlerPersonHelper extends ChangeNotifier {
       servicesOfUser = [];
       personsHelp.add(person);
     }
+    currentUser = await getCurrentUser();
+  }
+
+  Future<PersonHelp> getCurrentUser() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseUser userFromFirebase = await _auth.currentUser();
+    PersonHelp currentUser;
+    for (PersonHelp person in personsHelp) {
+      if (person.uid == userFromFirebase.uid) {
+        currentUser = person;
+        break;
+      }
+    }
+    return currentUser;
   }
 
   List<PersonHelp> personsHelp = [];
