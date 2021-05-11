@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'package:task_friendly/provider/models/person-helper.dart';
 import 'package:task_friendly/widgets/app_bar-checkout-tasker.dart';
 import 'package:task_friendly/widgets/bottom_nav.dart';
 import 'package:task_friendly/widgets/list-person-helper.dart';
@@ -18,7 +15,6 @@ class CheckoutTaskers extends StatefulWidget {
 
 class _CheckoutTaskersState extends State<CheckoutTaskers> {
   List<Map<String, dynamic>> personsHelper;
-
   @override
   void initState() {
     personsHelper = widget.personsHelper;
@@ -28,7 +24,6 @@ class _CheckoutTaskersState extends State<CheckoutTaskers> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     void searchTextField(value) async {
       if (value.isEmpty) {
         setState(() {

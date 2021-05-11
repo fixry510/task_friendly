@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:task_friendly/pages/chat.dart';
 import 'package:task_friendly/provider/handler-person-helper.dart';
 
 class ProfileHelper extends StatefulWidget {
@@ -279,7 +280,16 @@ class _ProfileHelperState extends State<ProfileHelper> {
                           Expanded(
                             flex: 6,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Chat(
+                                      personHelp: personHelp['person'],
+                                      serviceType: personHelp['service'],
+                                    ),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 'Select',
                                 style: TextStyle(fontSize: 20),

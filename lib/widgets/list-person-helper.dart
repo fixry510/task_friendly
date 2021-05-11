@@ -1,13 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'package:task_friendly/pages/checkout-tasker.dart';
 import 'package:task_friendly/pages/profile-hepler.dart';
-import 'package:task_friendly/provider/models/person-helper.dart';
 
-class ListPersonHelper extends StatelessWidget {
+class ListPersonHelper extends StatefulWidget {
   ListPersonHelper({
     Key key,
     @required this.size,
@@ -16,6 +11,12 @@ class ListPersonHelper extends StatelessWidget {
 
   final Size size;
   final List<Map<String, dynamic>> personsHelper;
+
+  @override
+  _ListPersonHelperState createState() => _ListPersonHelperState();
+}
+
+class _ListPersonHelperState extends State<ListPersonHelper> {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
@@ -27,7 +28,7 @@ class ListPersonHelper extends StatelessWidget {
       ),
       child: ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: personsHelper.length,
+        itemCount: widget.personsHelper.length,
         itemBuilder: (context, index) {
           return Center(
             child: GestureDetector(
@@ -36,7 +37,7 @@ class ListPersonHelper extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => Builder(
                       builder: (context) => ProfileHelper(
-                        personHelp: personsHelper[index],
+                        personHelp: widget.personsHelper[index],
                       ),
                     ),
                   ),
@@ -44,7 +45,7 @@ class ListPersonHelper extends StatelessWidget {
               },
               child: Container(
                 alignment: Alignment.center,
-                width: size.width * 0.9,
+                width: widget.size.width * 0.9,
                 height: 120,
                 margin: EdgeInsets.only(bottom: 15),
                 decoration: BoxDecoration(
@@ -73,7 +74,7 @@ class ListPersonHelper extends StatelessWidget {
                           //   personsHelper[index].image,
                           // ),
                           backgroundImage: NetworkImage(
-                            personsHelper[index]['person'].profileImage,
+                            widget.personsHelper[index]['person'].profileImage,
                           ),
                         ),
                       ),
@@ -84,7 +85,7 @@ class ListPersonHelper extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${personsHelper[index]['person'].name} ${personsHelper[index]['person'].lastname}",
+                              "${widget.personsHelper[index]['person'].name} ${widget.personsHelper[index]['person'].lastname}",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 20,
@@ -96,7 +97,7 @@ class ListPersonHelper extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  "${personsHelper[index]['service'].jobType}",
+                                  "${widget.personsHelper[index]['service'].jobType}",
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.grey[700],

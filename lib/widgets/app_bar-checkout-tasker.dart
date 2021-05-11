@@ -1,7 +1,4 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:task_friendly/provider/models/person-helper.dart';
 
 class CheckoutTaskerAppbar extends StatefulWidget {
   CheckoutTaskerAppbar(title) : this.title = title;

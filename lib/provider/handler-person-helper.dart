@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import './models/person-helper.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class HandlerPersonHelper extends ChangeNotifier {
   Future<void> initPerson() async {

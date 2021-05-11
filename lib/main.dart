@@ -24,22 +24,23 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<HandlerPersonHelper>(
-            create: (context) => HandlerPersonHelper(),
-          ),
-          StreamProvider<PersonHelp>.value(
-            value: AuthService().isLogin,
-          ),
-        ],
-        child: Wrapper(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<HandlerPersonHelper>(
+          builder: (_, widget) => widget,
+          create: (context) => HandlerPersonHelper(),
+        ),
+        StreamProvider<PersonHelp>.value(
+          value: AuthService().isLogin,
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Wrapper(),
       ),
     );
   }
