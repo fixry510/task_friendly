@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:task_friendly/pages/authPage.dart';
+import 'package:task_friendly/pages/chat.dart';
 import 'package:task_friendly/pages/home.dart';
 import 'package:task_friendly/provider/models/person-helper.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path_provider/path_provider.dart';
+
+import 'provider/handler-person-helper.dart';
 
 class Wrapper extends StatefulWidget {
   @override

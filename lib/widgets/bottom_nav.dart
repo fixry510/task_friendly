@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:task_friendly/services/authService.dart';
 
 class BottomNav extends StatefulWidget {
   @override
@@ -16,7 +17,10 @@ class _BottomNavState extends State<BottomNav> {
       child: SalomonBottomBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(() {
-          print(i);
+          if (i == 2) {
+            AuthService().signOut();
+            return _currentIndex;
+          }
           return _currentIndex = i;
         }),
         items: [

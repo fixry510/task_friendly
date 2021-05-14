@@ -6,6 +6,9 @@ import './models/person-helper.dart';
 
 class HandlerPersonHelper extends ChangeNotifier {
   PersonHelp currentUser;
+  HandlerPersonHelper() {
+    notifyListeners();
+  }
   Future<void> initPersons() async {
     QuerySnapshot docsh =
         await Firestore.instance.collection("users").getDocuments();

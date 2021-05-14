@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:task_friendly/provider/handler-person-helper.dart';
 import 'package:task_friendly/provider/models/person-helper.dart';
 
 class Chat extends StatefulWidget {
   final PersonHelp personHelp;
   final ServiceType serviceType;
+  final DocumentReference docChatRef;
 
-  const Chat({Key key, this.personHelp, this.serviceType}) : super(key: key);
+  const Chat({Key key, this.personHelp, this.serviceType, this.docChatRef})
+      : super(key: key);
   @override
   _ChatState createState() => _ChatState();
 }
@@ -16,13 +20,13 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     final PersonHelp personHelp = widget.personHelp;
-    final PersonHelp user = Provider.of<PersonHelp>(context);
-    print("currentUser ${user.age}");
-    print("personHelp ${personHelp.age}");
+    final PersonHelp currentUser = Provider.of<PersonHelp>(context);
+    final DocumentReference docChatRef = widget.docChatRef;
     final ServiceType serviceType = widget.serviceType;
     final TextEditingController msgController = TextEditingController();
     var size = MediaQuery.of(context).size;
     var keybordHeight = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
       body: ConstrainedBox(
         constraints: BoxConstraints(
@@ -64,27 +68,31 @@ class _ChatState extends State<Chat> {
                                     NetworkImage(personHelp.profileImage),
                               ),
                               SizedBox(width: 20),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    personHelp.name,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.white.withOpacity(0.9),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    personHelp.lastname,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.white.withOpacity(0.9),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      personHelp.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      personHelp.lastname,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Spacer(),
+                              SizedBox(width: 5),
                               Container(
                                 padding: EdgeInsets.all(7),
                                 width: 40,
@@ -184,13 +192,33 @@ class _ChatState extends State<Chat> {
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 10),
-                            child: ListView.builder(
+                            child: ListView.separated(
+                              itemCount: 20,
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(height: 10),
                               padding: EdgeInsets.zero,
                               itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Text('data'),
-                                  ],
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Row(
+                                    textDirection: index % 2 == 0
+                                        ? TextDirection.rtl
+                                        : TextDirection.ltr,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: index % 2 == 0
+                                              ? Colors.teal.withOpacity(0.5)
+                                              : Colors.blue.withOpacity(0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Text('data' * 5),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
@@ -221,7 +249,11 @@ class _ChatState extends State<Chat> {
                                   bottom: keybordHeight == 0 ? 23 : 10,
                                   right: 10),
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  docChatRef.collection("message").add({
+                                    "text": msgController.text,
+                                    "time": Timestamp.now(),
+                                  });
                                   print(msgController.text);
                                 },
                                 child: Container(

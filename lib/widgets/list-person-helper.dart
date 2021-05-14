@@ -73,9 +73,10 @@ class _ListPersonHelperState extends State<ListPersonHelper> {
                           // backgroundImage: AssetImage(
                           //   personsHelper[index].image,
                           // ),
-                          backgroundImage: NetworkImage(
+                          foregroundImage: NetworkImage(
                             widget.personsHelper[index]['person'].profileImage,
                           ),
+                          backgroundColor: Colors.grey[300],
                         ),
                       ),
                       Expanded(
